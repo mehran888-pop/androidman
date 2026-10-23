@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  حقوق‌یار: آدرس سرور توسط کاربر وارد می‌شود و ممکن است در شبکه‌ی داخلی
+  بدون HTTPS (http://192.168.x.x:3000) اجرا شود؛ بنابراین ترافیک cleartext
+  مجاز شده است. برای استقرار روی اینترنت، حتماً از HTTPS استفاده کنید.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

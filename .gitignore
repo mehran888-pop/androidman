@@ -1,0 +1,38 @@
+# وابستگی‌ها
+node_modules/
+npm-debug.log*
+
+# داده‌ی محلی (اطلاعات پرسنلی حساس)
+data/
+*.sqlite
+*.db
+
+# محیط و رمزها
+.env
+.env.local
+
+# اندروید / Gradle
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/capacitor-cordova-android-plugins/
+android/app/src/main/assets/public/
+android/app/src/main/assets/capacitor.config.json
+android/app/src/main/assets/capacitor.plugins.json
+android/app/src/main/res/xml/config.xml
+*.apk
+*.aab
+*.jks
+*.keystore
+
+# سیستم
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+
+# ابزارهای موقت
+coverage/
+.tmp/

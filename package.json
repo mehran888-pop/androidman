@@ -1,0 +1,30 @@
+{
+  "name": "androidman-payroll",
+  "version": "1.0.0",
+  "private": true,
+  "description": "حقوق‌یار — نرم‌افزار محاسبه حقوق و دستمزد با ارسال فیش به ربات بله (Node.js + Capacitor Android)",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "bot": "node src/bot-poller.js",
+    "seed": "node scripts/seed.js",
+    "test": "node --test",
+    "android:add": "cap add android",
+    "android:sync": "cap sync android",
+    "android:open": "cap open android",
+    "android:build": "cap sync android && cd android && ./gradlew assembleDebug"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/cli": "^7.0.0",
+    "@capacitor/core": "^7.0.0"
+  }
+}

@@ -1,0 +1,14 @@
+services:
+  hoghooghyar:
+    build: .
+    container_name: hoghooghyar
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - HOST=0.0.0.0
+      - PANEL_PASSWORD=${PANEL_PASSWORD:-}
+      - BALE_BOT_TOKEN=${BALE_BOT_TOKEN:-}
+    volumes:
+      - ./data:/data
