@@ -1,0 +1,14 @@
+{
+  "appId": "ir.hoghooghyar.payroll",
+  "appName": "حقوق‌یار",
+  "webDir": "web",
+  "bundledWebRuntime": false,
+  "android": {
+    "allowMixedContent": true,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false
+  },
+  "server": {
+    "androidScheme": "https"
+  }
+}
