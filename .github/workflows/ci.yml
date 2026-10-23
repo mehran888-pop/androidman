@@ -29,11 +29,10 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 21
-      - uses: android-actions/setup-android@v3
 
       - name: نصب وابستگی‌ها و همگام‌سازی وب
         run: |
@@ -51,8 +50,16 @@ jobs:
 
       - name: ساخت APK
         working-directory: android
+        env:
+          # رانرهای GitHub اندروید SDK را از پیش نصب دارند
+          ANDROID_HOME: /usr/local/lib/android/sdk
+          ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
         run: |
           chmod +x gradlew
+          if [ ! -d "$ANDROID_HOME" ]; then
+            echo "Android SDK یافت نشد: $ANDROID_HOME"
+            ls /usr/local/lib/android 2>/dev/null || true
+          fi
           ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: بارگذاری APK
