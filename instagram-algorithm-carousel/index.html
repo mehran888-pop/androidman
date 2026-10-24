@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-view="post" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>پست اسلایدی · الگوریتم اینستاگرام چطور کار می‌کند؟</title>
+<meta name="description" content="پست کاروسل ۶ اسلایدی آشنایی با الگوریتم اینستاگرام، همراه کپشن حرفه‌ای و هشتگ‌گذاری.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ══════════════ تنظیمات: فقط این بخش را برای خودی‌سازی عوض کنید ══════════════ -->
+<script>
+  const CONFIG = {
+    name: "آموزش الگوریتم اینستاگرام",
+    handle: "your.handle",          // ← هندل خودتان را بنویسید
+    location: "",
+    likes: "۱٬۲۴۸",
+    comments: "۴۲",
+    time: "۲ ساعت پیش",
+    slides: 6
+  };
+</script>
+
+<div class="stage">
+  <header class="topbar">
+    <div class="topbar__title">
+      <span class="dot"></span>
+      پیش‌نمایش پست اسلایدی — همان‌طور که در اینستاگرام دیده می‌شود
+    </div>
+    <div class="topbar__controls">
+      <div class="seg" role="group" aria-label="نوع نمایش">
+        <button data-view="post" class="is-on">نسخه نهایی (با متن)</button>
+        <button data-view="art">فقط آرت</button>
+      </div>
+      <button id="themeBtn" class="ghost">روشن / تارک</button>
+    </div>
+  </header>
+
+  <main class="grid">
+    <!-- ═══════════════ ستون چپ: پست اینستاگرام ═══════════════ -->
+    <section class="phone-wrap">
+      <article class="post" id="post">
+
+        <header class="post__head">
+          <div class="avatar">
+            <img src="اسلاید-1/slide-1-post.jpg" alt="">
+          </div>
+          <div class="who">
+            <div class="who__line">
+              <span class="handle" id="oHandle"></span>
+              <svg class="verified" viewBox="0 0 24 24" aria-label="تأییدشده"><path d="M12 2l2.2 1.7 2.8-.3 1 2.6 2.4 1.5-.8 2.7.8 2.7-2.4 1.5-1 2.6-2.8-.3L12 22l-2.2-1.7-2.8.3-1-2.6L3.6 16.5l.8-2.7-.8-2.7L6 9.6l1-2.6 2.8.3z" fill="#3897f0"/><path d="M10.8 15.4l-2.4-2.4 1.1-1.1 1.3 1.3 3-3 1.1 1.1z" fill="#fff"/></svg>
+            </div>
+            <div class="sub" id="oName"></div>
+          </div>
+          <span class="pill-count">۶ اسلاید</span>
+          <button class="dots-menu" aria-label="گزینه‌ها">⋯</button>
+        </header>
+
+        <div class="progress" id="progress" aria-hidden="true"></div>
+
+        <div class="media" id="media" tabindex="0"
+             aria-roledescription="کاروسل" aria-label="اسلایدهای پست">
+          <div class="track" id="track"></div>
+
+          <button class="nav nav--next" id="next" aria-label="اسلاید بعدی">
+            <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="nav nav--prev" id="prev" aria-label="اسلاید قبلی">
+            <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+
+          <span class="counter" id="counter">۱ / ۶</span>
+          <div class="tapheart" id="tapheart" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.7-9.3-9C1.2 8 3.3 4.6 6.7 4.6c2 0 3.5 1.1 4.3 2.3.8-1.2 2.3-2.3 4.3-2.3 3.4 0 5.5 3.4 4 7.4-1.8 4.3-9.3 9-9.3 9z"/></svg>
+          </div>
+        </div>
+
+        <div class="bar">
+          <div class="bar__icons">
+            <button id="likeBtn" class="ic" aria-label="پسندیدن">
+              <svg viewBox="0 0 24 24"><path d="M12 20.4S5 16 3.3 12C1.9 8.8 3.8 5.8 6.8 5.8c1.9 0 3.4 1 4.2 2.2.8-1.2 2.3-2.2 4.2-2.2 3 0 4.9 3 3.5 6.2-1.7 4-8.7 8.4-8.7 8.4z" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+            </button>
+            <button class="ic" aria-label="کامنت">
+              <svg viewBox="0 0 24 24"><path d="M21 11.5c0 4.4-4 8-9 8-1.2 0-2.4-.2-3.5-.6L3 20l1.3-3.6C3.1 15 2.5 13.3 2.5 11.5c0-4.4 4-8 9-8s9.5 3.6 9.5 8z" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+            </button>
+            <button class="ic" aria-label="ارسال">
+              <svg viewBox="0 0 24 24"><path d="M22 3L2 11l7 2.5L11.5 21 22 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+            </button>
+            <button id="saveBtn" class="ic ic--end" aria-label="ذخیره">
+              <svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4.5L6 21z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+          <div class="bar__likes"><b id="oLikes"></b> پسند · دیدن همه <b id="oComments"></b> کامنت</div>
+        </div>
+
+        <section class="caption">
+          <span class="handle handle--inline" id="oHandle2"></span>
+          <div class="caption__body" id="captionBody"></div>
+          <div class="tags" id="tagRow"></div>
+          <div class="bar__likes sub2" id="oTime"></div>
+        </section>
+
+        <section class="comments">
+          <div class="cmt"><b>negar.design</b> اسلاید ۵ روشن‌ترین توضیحی بود که تا حالا دیدم 🙌</div>
+          <div class="cmt"><b>studio.ravi</b> پس یعنی هشتگ تنها کار نمی‌کند؟</div>
+        </section>
+      </article>
+
+      <div class="swipe-hint">با فلش‌های چپ/راست، سوایپ یا درگ جابه‌جا شوید — دوبار ضربه روی تصویر = ❤️</div>
+    </section>
+
+    <!-- ═══════════════ ستون راست: کپشن، هشتگ، متداتا ═══════════════ -->
+    <aside class="side">
+      <section class="card">
+        <h2>کپشن حرفه‌ای</h2>
+        <p class="hint">برای انتشار مستقیم آماده است؛ خط اول هوک، بدنه آموزشی، و در انتها دعوت به ذخیره/ارسال.</p>
+        <pre class="cap" id="capText"></pre>
+        <div class="row-btn">
+          <button class="btn btn--pri" data-copy="cap">کپی کپشن</button>
+          <button class="btn" data-copy="tags">کپی هشتگ‌ها</button>
+          <button class="btn" data-copy="all">کپی هر دو</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>هشتگ‌گذاری</h2>
+        <div class="tagset">
+          <div class="tagset__h">۵ هشتگ اصلی <span>(پیشنهادشده در کپشن)</span></div>
+          <div class="taglist" id="tagsMain"></div>
+        </div>
+        <div class="tagset">
+          <div class="tagset__h">هشتگ‌های پشتیبان <span>(برای کامنت اول)</span></div>
+          <div class="taglist" id="tagsSub"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>متن و ALT هر اسلاید</h2>
+        <ol class="slides" id="slideMeta"></ol>
+      </section>
+
+      <section class="card">
+        <h2>فایل‌های خروجی</h2>
+        <p class="hint">هر اسلاید در پوشه‌ای مستقل با نام «اسلاید-شماره». PNG برای آپلود در اینستاگرام (۱۰۸۰×۱۰۸)، JPG برای پیش‌نمایش.</p>
+        <div class="dl" id="dlList"></div>
+        <div class="row-btn"><a class="btn" href="caption.md" download>دانلود کپشن (caption.md)</a></div>
+      </section>
+    </aside>
+  </main>
+</div>
+
+<script>
+/* ───────────────────────── داده‌های متن ───────────────────────── */
+const SLIDES = [
+  { n: 1, alt: "کاور پست: مغز سه‌بعدی روی گوشی اینستاگرام با تیتر «الگوریتم اینستاگرام چطور کار می‌کند؟»",
+    head: "کاور", line: "الگوریتم اینستاگرام چطور کار می‌کند؟" },
+  { n: 2, alt: "شش آیکون سه‌بعدی: فید اصلی، استوری، اکسپلور، ریلز، جست‌وجو و پیشنهادها که به یک گره مرکزی وصل‌اند.",
+    head: "ساختار", line: "الگوریتم یکی نیست؛ شش سیستم جداست، هر کدام با وزن‌های خودش." },
+  { n: 3, alt: "داشبورد رتبه‌بندی با چهار نوار: علاقه‌مندی، رابطه، اطلاعات پست و رفتار کاربر.",
+    head: "رتبه‌بندی", line: "چهار سیگنال رتبه‌بندی فید اصلی: علاقه‌مندی، رابطه، اطلاعات پست، رفتار کاربر." },
+  { n: 4, alt: "ساعت شنی با آیکون پخش و سه کارت ذخیره، ارسال و کامنت با نمره‌های نسبی.",
+    head: "امتیاز", line: "وزن تعامل‌ها: ارسال و ذخیره بالا، لایک پایین." },
+  { n: 5, alt: "نمودار آبشاری توزیع: از ۲۰۰ نفر به ۱۵۰ و بعد ۸۰۰ نفر.",
+    head: "مثال عددی", line: "مثال: ۲۰۰ نفر → امتیاز بالا → ۱٬۵۰۰ نفر سرد → ۸٬۰۰۰ نفر در اکسپلور." },
+  { n: 6, alt: "چک‌لیست سه‌بعدی با تیک‌های فیروزه‌ای و دکمه دعوت به ذخیره و ارسال.",
+    head: "اقدام", line: "چک‌لیست ۷ روزه + دعوت به ذخیره و ارسال." }
+];
+
+const CAPTION =
+`الگوریتم اینستاگرام دشمن شما نیست؛ یک ماشین رتبه‌بندی است. 🧠
+
+اینستاگرام «یک» الگوریتم ندارد؛ شش سیستم جدا دارد — فید اصلی، استوری، اکسپلور، ریلز، جست‌وجو و پیشنهادها — و هر کدام وزن‌های خودش را. پس یک فرمول برای همه جواب نمی‌دهد.
+
+آنچه واقعاً تعیین می‌کند پست شما بالا برود یا نه، چهار سیگنال است:
+۱) تاریخچه علاقه‌مندی مخاطب
+۲) نزدیکی رابطه — آیا همدیگر را در دایرکت دارید؟
+۳) اطلاعات خودِ پست — واچ‌تایم، ذخیره، ارسال
+۴) رفتار آن کاربر با حساب شما
+
+اسلاید ۵ را با عدد بخوانید: یک ریلز ۱۸ ثانیه‌ای اول به ۲۰۰ نفر از فالوورها نشان داده می‌شود. اگر ۶۲٪ آن را ببینند و ۱۴ نفر برای کسی بفرستند، تست بعدی ۱٬۵۰۰ نفرِ غریبه است؛ و آنجا اگر سیگنال‌ها سبز بماند، موج سوم با ۸٬۰۰ نفر در اکسپلور باز می‌شود.
+همان هفته، ویدیویی با ۵ ثانیه میانگین تماشا در همان موج اول خاموش شد. نه شدوبنی در کار بود، نه توطئه‌ای؛ فقط امتیاز.
+
+اگر تازه شروع کرده‌اید، این شش کار را هفت روز پشت سر هم انجام دهید: هوک سه‌ثانیه‌ای، یک ایده در هر پست، زیرنویس درشت، یک دلیل محکم برای ذخیره، دعوت روشن به ارسال، و پاسخ به تمام کامنت‌های یک ساعت اول.
+
+📌 ذخیره‌اش کنید تا وقت ساخت پست دم دستتان باشد — و برای کسی بفرستید که می‌پرسد «چرا پست من بازدید نمی‌خورد؟»
+💬 کدام سیگنال برایتان عجیب‌تر بود؟ بنویسید.`;
+
+const TAGS_MAIN = ["#الگوریتم_اینستاگرام", "#رشد_در_اینستاگرام", "#تولید_محتوا", "#دیجیتال_مارکتینگ", "#آموزش_اینستاگرام"];
+const TAGS_SUB  = ["#اینستاگرام", "#ریلز", "#ریلز_اینستاگرام", "#اکسپلور", "#الگوریتم",
+                   "#بازاریابی_دیجیتال", "#محتوای_آموزشی", "#کسب_و_کار_آنلاین", "#سئو_اینستاگرام",
+                   "#اینستاگرام_کاری", "#growoninstagram", "#instagramalgorithm", "#contentmarketing"];
+
+/* ───────────────────────── ساختار صفحه ───────────────────────── */
+const $ = (s) => document.querySelector(s);
+const fa = (n) => String(n).replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
+const view = () => document.documentElement.dataset.view;
+const srcFor = (i) => view() === "post"
+  ? `اسلاید-${i}/slide-${i}-post.jpg`
+  : `اسلاید-${i}/slide-${i}.png`;
+
+$("#oHandle").textContent = "@" + CONFIG.handle;
+$("#oHandle2").textContent = CONFIG.handle;
+$("#oName").textContent = CONFIG.name;
+$("#oLikes").textContent = CONFIG.likes;
+$("#oComments").textContent = CONFIG.comments;
+$("#oTime").textContent = CONFIG.time;
+$("#captionBody").textContent = CAPTION;
+$("#capText").textContent = CAPTION + "\n\n" + TAGS_MAIN.join(" ");
+
+const track = $("#track"), prog = $("#progress"), meta = $("#slideMeta"), dl = $("#dlList");
+SLIDES.forEach((s) => {
+  const f = document.createElement("figure");
+  f.className = "slide";
+  f.innerHTML = `<img src="${srcFor(s.n)}" alt="${s.alt}" draggable="false"><figcaption class="sr">${s.alt}</figcaption>`;
+  track.appendChild(f);
+
+  const b = document.createElement("i");
+  prog.appendChild(b);
+
+  const li = document.createElement("li");
+  li.innerHTML = `<b>${s.head}</b> — ${s.line}<br><code>${s.alt}</code>`;
+  meta.appendChild(li);
+
+  const a1 = document.createElement("a");
+  a1.className = "chip"; a1.href = `اسلاید-${s.n}/slide-${s.n}-post.png`;
+  a1.setAttribute("download", `slide-${s.n}-post.png`);
+  a1.textContent = `اسلاید ${fa(s.n)} · PNG`;
+  dl.appendChild(a1);
+});
+$("#tagRow").innerHTML = TAGS_MAIN.map((t) => `<span>${t}</span>`).join("");
+$("#tagsMain").innerHTML = TAGS_MAIN.map((t) => `<span>${t}</span>`).join("");
+$("#tagsSub").innerHTML = TAGS_SUB.map((t) => `<span>${t}</span>`).join("");
+
+/* ───────────────────────── کاروسل ───────────────────────── */
+let i = 0;
+const total = SLIDES.length;
+const RTL = true;
+function go(n) {
+  i = Math.max(0, Math.min(total - 1, n));
+  track.style.transform = `translateX(${-i * 100}%)`;
+  $("#counter").textContent = `${fa(i + 1)} / ${fa(total)}`;
+  [...prog.children].forEach((el, k) => el.classList.toggle("on", k === i));
+  [...track.children].forEach((el, k) => el.classList.toggle("active", k === i));
+}
+$("#next").onclick = () => go(i + 1);
+$("#prev").onclick = () => go(i - 1);
+addEventListener("keydown", (e) => {
+  if (e.key === "ArrowLeft") go(RTL ? i + 1 : i - 1);
+  if (e.key === "ArrowRight") go(RTL ? i - 1 : i + 1);
+});
+let x0 = null;
+const media = $("#media");
+media.addEventListener("pointerdown", (e) => { x0 = e.clientX; media.setPointerCapture(e.pointerId); });
+media.addEventListener("pointerup", (e) => {
+  if (x0 === null) return;
+  const d = e.clientX - x0;
+  if (Math.abs(d) > 45) go(RTL ? i - Math.sign(d) : i + Math.sign(d));
+  x0 = null;
+});
+media.addEventListener("wheel", (e) => { if (Math.abs(e.deltaX) > 24) go(i + Math.sign(e.deltaX) * (RTL ? -1 : 1)); }, { passive: true });
+
+/* ───────────────────────── لایک / ذخیره ───────────────────────── */
+const likeBtn = $("#likeBtn"), tap = $("#tapheart");
+let liked = false;
+const setLike = (v) => {
+  liked = v;
+  likeBtn.classList.toggle("on", v);
+  likeBtn.querySelector("path").setAttribute("fill", v ? "#ff3b5c" : "none");
+  likeBtn.querySelector("path").setAttribute("stroke", v ? "#ff3b5c" : "currentColor");
+  if (v) { tap.classList.add("pop"); setTimeout(() => tap.classList.remove("pop"), 700); }
+};
+likeBtn.onclick = () => setLike(!liked);
+let lastTap = 0;
+media.addEventListener("click", () => {
+  const t = Date.now();
+  if (t - lastTap < 320) setLike(true);
+  lastTap = t;
+});
+$("#saveBtn").onclick = (e) => {
+  const b = e.currentTarget;
+  b.classList.toggle("on");
+  b.querySelector("path").setAttribute("fill", b.classList.contains("on") ? "currentColor" : "none");
+};
+
+/* ───────────────────────── ابزارها ───────────────────────── */
+document.querySelectorAll("[data-view]").forEach((b) => {
+  b.onclick = () => {
+    document.querySelectorAll("[data-view]").forEach((x) => x.classList.remove("is-on"));
+    b.classList.add("is-on");
+    document.documentElement.dataset.view = b.dataset.view;
+    [...track.children].forEach((f, k) => f.querySelector("img").src = srcFor(k + 1));
+  };
+});
+$("#themeBtn").onclick = () => {
+  const d = document.documentElement;
+  d.dataset.theme = d.dataset.theme === "dark" ? "light" : "dark";
+};
+document.querySelectorAll("[data-copy]").forEach((b) => {
+  b.onclick = async () => {
+    const txt = b.dataset.copy === "cap" ? CAPTION
+      : b.dataset.copy === "tags" ? [...TAGS_MAIN, ...TAGS_SUB].join(" ")
+      : CAPTION + "\n\n" + [...TAGS_MAIN, ...TAGS_SUB].join(" ");
+    try { await navigator.clipboard.writeText(txt); }
+    catch { const t = document.createElement("textarea"); t.value = txt; document.body.append(t); t.select(); document.execCommand("copy"); t.remove(); }
+    const old = b.textContent; b.textContent = "کپی شد ✓";
+    setTimeout(() => b.textContent = old, 1400);
+  };
+});
+go(0);
+
+/* باز/بسته شدن کپشن و کپی تک‌هشتگ با کلیک */
+$("#captionBody").addEventListener("click", (e) => e.currentTarget.classList.toggle("open"));
+document.querySelectorAll(".taglist span").forEach((t) => {
+  t.onclick = async () => {
+    try { await navigator.clipboard.writeText(t.textContent); } catch {}
+    const o = t.textContent; t.textContent = "کپی شد ✓";
+    setTimeout(() => t.textContent = o, 1100);
+  };
+});
+</script>
+</body>
+</html>
